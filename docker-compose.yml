@@ -1,0 +1,36 @@
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+  web1:
+    #restart: on-failure
+    build: ./web
+    hostname: web1
+    env_file:
+      - ./.env
+    environment:
+      - REDIS_HOST=redis
+    volumes:
+      - ./web/src/:/app/src/
+      - ./web/.env:/app/.env
+    #ports:
+      #- 81:5000
+#  web2:
+#    restart: on-failure
+#    build: ./web
+#    hostname: web2
+#    ports:
+#      - '82:5000'
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+    depends_on:
+    - web1
+#    - web2
+
+
