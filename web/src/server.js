@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api.gupshup.io', require('./routes/api.gupshup.io'))
+app.use('/online.99digital.co.il', require('./routes/online.99digital.co.il'))
 app.use('/unknown', require('./routes/unknown'))
 //app.use('/', require('./routes/api.gupshup.io'))
 
