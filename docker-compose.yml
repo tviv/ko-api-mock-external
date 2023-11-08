@@ -13,7 +13,7 @@ services:
       - REDIS_HOST=redis
     volumes:
       - ./web/src/:/app/src/
-      - ./web/.env:/app/.env
+      #- ./web/.env:/app/.env
     #ports:
       #- 81:5000
 #  web2:

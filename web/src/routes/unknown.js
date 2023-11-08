@@ -5,6 +5,7 @@ var router = express.Router();
 
 router.all('*', (req, res) => {
   const details = {
+    ip: req.header('X-Real-IP'),
     method: req.method,
     url: req.header('Origin') + req.url,
     //req.params,
