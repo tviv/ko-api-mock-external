@@ -21,9 +21,9 @@ router.post('/api/v1/accounts/60/conversations/:conversation_id/messages', (req,
     "sender": {
       "custom_attributes": {},
       "email": null,
-      "id": 107854,
+      "id": 200000 + getRandomInt(100000),
       "identifier": null,
-      "name": "sdfdffgd",
+      "name": "test contact",
       "phone_number": "+1234567891",
       "thumbnail": "",
       "type": "contact"

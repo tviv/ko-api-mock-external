@@ -11,6 +11,13 @@ router.post('/wa/api/v1/msg', (req, res) => {
   res.send({"status":"submitted","messageId":uid});
 });
 
+router.post('/sm/api/v1/template/msg', (req, res) => {
+  const uid = crypto.randomUUID()
+  sendToCallback(req.body, uid, 'template')
+
+  res.send({"status":"submitted","messageId":uid});
+});
+
 const sendToCallback = ({ source, destination }, uid, type) => {
   const wid = crypto.randomUUID()
   setTimeout(() => postCallback(
