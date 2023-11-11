@@ -8,14 +8,19 @@ router.post('/wa/api/v1/msg', (req, res) => {
   const uid = crypto.randomUUID()
   sendToCallback(req.body, uid, 'session')
 
-  res.send({"status":"submitted","messageId":uid});
+  setTimeout(()=>{
+    sendToCallback(req.body, uid, 'session')
+    res.send({"status":"submitted","messageId":uid})
+  }, 900);
 });
 
 router.post('/sm/api/v1/template/msg', (req, res) => {
   const uid = crypto.randomUUID()
-  sendToCallback(req.body, uid, 'template')
 
-  res.send({"status":"submitted","messageId":uid});
+  setTimeout(()=>{
+    sendToCallback(req.body, uid, 'template')
+    res.send({"status":"submitted","messageId":uid})
+  }, 1500);
 });
 
 const sendToCallback = ({ source, destination }, uid, type) => {
