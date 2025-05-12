@@ -33,4 +33,17 @@ services:
     - web1
 #    - web2
 
+  locustm:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./locust/:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://static.182.160.109.65.clients.your-server.de
+
+  locustw:
+    image: locustio/locust
+    volumes:
+      - ./locust/:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locustm
 
