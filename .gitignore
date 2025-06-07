@@ -1,1 +1,4 @@
 /.env
+/nginx/conf/allowed_ips.conf
+/certs/*.crt
+/certs/*.key

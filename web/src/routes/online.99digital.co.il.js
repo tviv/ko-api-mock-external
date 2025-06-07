@@ -1,13 +1,12 @@
 var express = require('express');
 const crypto = require("crypto");
-const {postCallback} = require("../utils/callback");
 const {getShortTS, getRandomInt} = require("../utils/general");
 var router = express.Router();
 
-router.post('/api/v1/accounts/60/conversations/:conversation_id/messages', (req, res) => {
-
+router.post('/api/v1/accounts/:account_id/conversations/:conversation_id/messages', (req, res) => {
+  //console.log('req.body', req.body);
   const result = {
-    "id": 30000000 + getRandomInt(1000000),
+    "id": 300000000 + getRandomInt(10000000),
     "content": req.body.content,
     "inbox_id": 100 + getRandomInt(1000),
     "conversation_id": parseInt(req.params.conversation_id),
@@ -28,6 +27,27 @@ router.post('/api/v1/accounts/60/conversations/:conversation_id/messages', (req,
       "thumbnail": "",
       "type": "contact"
     },
+  }
+
+  res.send(result);
+});
+
+router.post('/api/v1/accounts/:account_id/conversations/by_phone_number', (req, res) => {
+  //console.log('req.body', req.body);
+  const result = {
+    "contact_id": 10000000 + getRandomInt(1000000),
+    "conversation_id": 2000000 + getRandomInt(100000),
+  }
+
+  res.send(result);
+});
+
+router.post('/api/v1/accounts/:account_id/conversations/:conversation_id/messages/:message_id/status', (req, res) => {
+  //console.log('req.body', req.body);
+  const result = {
+    "id": parseInt(req.params.message_id),
+    "conversation_id": parseInt(req.params.conversation_id),
+    "status": req.body.status,
   }
 
   res.send(result);

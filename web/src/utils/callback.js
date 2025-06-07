@@ -1,9 +1,13 @@
 const axios = require("axios");
-require('dotenv').config({path: '../.env'})
 
-const callbackUrl = process.env.MSG_CALLBACK_URL
-const postCallback = (body, query) => {
-  axios.post(callbackUrl, body, {params: query})
+const postRequest = (url, body, query) => {
+  axios.post(url, body, {params: query})
+    .then((response) => {
+      console.log("Response:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error:", error.message);
+    });
 }
 
-module.exports = { postCallback }
+module.exports = { postRequest }

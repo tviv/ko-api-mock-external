@@ -1,12 +1,12 @@
 var express = require('express');
 const crypto = require("crypto");
-const {postCallback} = require("../utils/callback");
+const {postRequest} = require("../utils/callback");
 const {getRandomInt, getShortTS} = require("../utils/general");
-var router = express.Router();
+const router = express.Router();
+const callbackUrl = process.env.MSG_CALLBACK_URL_BSP
 
 router.post('/wa/api/v1/msg', (req, res) => {
   const uid = crypto.randomUUID()
-  sendToCallback(req.body, uid, 'session')
 
   setTimeout(()=>{
     sendToCallback(req.body, uid, 'session')
@@ -44,5 +44,9 @@ const sendToCallback = ({ source, destination }, uid, type) => {
   ), 1900 + getRandomInt(6000))
 
 };
+
+const postCallback = (body, query) => {
+  postRequest(callbackUrl, body, query);
+}
 
 module.exports = router;

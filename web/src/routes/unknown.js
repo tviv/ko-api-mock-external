@@ -1,6 +1,4 @@
 var express = require('express');
-const crypto = require("crypto");
-const {postCallback} = require("../utils/callback");
 var router = express.Router();
 
 router.all('*', (req, res) => {

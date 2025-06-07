@@ -1,45 +1,49 @@
+x-web-common: &web-common
+  build: ./web
+  env_file:
+    - ./.env
+  environment:
+    - REDIS_HOST=redis
+  volumes:
+    - ./web/src/:/app/src/
+  expose:
+    - 5000 # Expose the internal port to the Docker network only
+
 services:
   redis:
     image: redis:latest
-    ports:
-      - '6379:6379'
-  web1:
-    #restart: on-failure
-    build: ./web
-    hostname: web1
-    env_file:
-      - ./.env
-    environment:
-      - REDIS_HOST=redis
     volumes:
-      - ./web/src/:/app/src/
-      #- ./web/.env:/app/.env
-    #ports:
-      #- 81:5000
-#  web2:
-#    restart: on-failure
-#    build: ./web
-#    hostname: web2
-#    ports:
-#      - '82:5000'
+      - redis-data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+
+  web:
+    <<: *web-common
+
+  web-run:
+    <<: *web-common  
+
   nginx:
     image: nginx:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 80:80
       - 443:443
     volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certs/:/usr/share/nginx/certs
     depends_on:
-    - web1
-#    - web2
+      - web
 
   locustm:
     image: locustio/locust
     ports:
-      - "8089:8089"
+      - 127.0.0.1:8089:8089
     volumes:
       - ./locust/:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://static.182.160.109.65.clients.your-server.de
+    command: -f /mnt/locust/locustfile.py --master -H ${TEST_API_DOMAIN}
 
   locustw:
     image: locustio/locust
@@ -47,3 +51,5 @@ services:
       - ./locust/:/mnt/locust
     command: -f /mnt/locust/locustfile.py --worker --master-host locustm
 
+volumes:
+  redis-data:
